@@ -1,15 +1,15 @@
 <template>
   <div class="hello">
-  <h1>Welcome to Netlify</h1>
+  <h1>Loggin To Continue</h1>
+    <div>
+      login form.
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+name: 'Loggin',
 }
 </script>
 

@@ -14,6 +14,11 @@ export default new Router({
       component: Home
     },
     {
+      path: '/loggin',
+      name: 'loggin',
+      component: () => import('./components/Loggin.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
