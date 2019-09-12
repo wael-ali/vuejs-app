@@ -19,6 +19,11 @@ export default new Router({
       component: () => import('./components/Loggin.vue')
     },
     {
+      path: '/subnet',
+      name: 'SubnetCalculate',
+      component: () => import('./views/SubnetCalculate.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
