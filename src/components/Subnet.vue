@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="subnet">
     <div>
       <form>
           <label for="subnetmask1">Enter IP:</label>
@@ -317,6 +317,14 @@ export default {
     color: rgb(9, 65, 59);
     border-radius: 3px;
     border-left: 3px solid coral;
+  }
+
+  .subnet{
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 32px 2px rgba(0,0,0,0.35); 
+    box-shadow: 0px 0px 32px 2px rgba(0,0,0,0.35);
   }
 
 </style>
