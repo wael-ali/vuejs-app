@@ -51,7 +51,7 @@
 
           <div v-if="showResult" class="flex-info">
             <div>IP Binary: </div>
-            <div>{{ binaryMask }}</div>
+            <div class="binary-font">{{ binaryMask }}</div>
           </div>
 
           <div v-if="showResult" class="flex-info">
@@ -304,12 +304,23 @@ export default {
   }
 
   .flex-info {
-    display: flex
+    display: flex;
+    flex-wrap: wrap;
   }
   .flex-info > div{
     flex: 2;
     /* border-bottom: 2px solid  #fff; */
     padding: 5px;
+  }
+  
+  @media screen and (max-width: 714px) {
+    .flex-info {
+      flex-direction: column;
+      /* border-bottom: 2px solid  #fff; */
+    }
+    .binary-font{
+      font-size: 0.70rem;
+    }
   }
   .flex-info:hover{
     /* border-bottom: 2px solid rgb(192, 124, 22); */
