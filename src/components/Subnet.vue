@@ -6,23 +6,23 @@
           <label for="subnetmask1">Enter IP:</label>
         <div class="flex-container">
           <div class="">
-            <input v-model="maskOctet1" class="form-control" id="subnetmask1"  placeholder="255" :class="{ 'alert-danger':maskOctet1_error}">
+            <input @change="validateInput" v-model="maskOctet1" class="form-control" id="subnetmask1"  placeholder="255" :class="{ 'alert-danger':maskOctet1_error}">
           </div>
           <span>.</span>
           <div class="">
-            <input v-model="maskOctet2" class="form-control" id="subnetmask2"  placeholder="255" :class="{ 'alert-danger':maskOctet2_error}">
+            <input @change="validateInput" v-model="maskOctet2" class="form-control" id="subnetmask2"  placeholder="255" :class="{ 'alert-danger':maskOctet2_error}">
           </div>
           <span>.</span>
           <div class="">
-            <input v-model="maskOctet3" class="form-control" id="subnetmask3"  placeholder="255" :class="{ 'alert-danger':maskOctet3_error}">
+            <input @change="validateInput" v-model="maskOctet3" class="form-control" id="subnetmask3"  placeholder="255" :class="{ 'alert-danger':maskOctet3_error}">
           </div>
           <span>.</span>
           <div class="">
-            <input v-model="maskOctet4" class="form-control" id="subnetmask4"  placeholder="255" :class="{ 'alert-danger':maskOctet4_error}">
+            <input @change="validateInput" v-model="maskOctet4" class="form-control" id="subnetmask4"  placeholder="255" :class="{ 'alert-danger':maskOctet4_error}">
           </div>
           <span> / </span>
           <div class="">
-            <input v-model="network_number" class="form-control" id="network_number"  placeholder="24" :class="{ 'alert-danger':network_number_error}">
+            <input @change="validateInput" v-model="network_number" class="form-control" id="network_number"  placeholder="24" :class="{ 'alert-danger':network_number_error}">
           </div>
         </div>
 
@@ -30,18 +30,18 @@
           <div v-if="show_octetErrormsg" class="error threeThirds">
            <small><i> {{ error_msg }}</i></small>
           </div>
-          <div v-if="show_networkNumberErrormsg" class="error third float-right ml-2 ">
+          <div v-if="show_networkNumberErrormsg" class="error third">
             <small><i>{{ network_number_error_msg }}</i></small>
           </div>
         </div>
         <!--<div type="submit" class="cal-btn mt-4" @click="claculateHosts">Calculate</div>-->
-        <div type="submit" class="btn btn-primary mt-4" @click="claculateHosts">Calculate</div>
+        <button v-if="valid_form" type="submit" class="btn btn-primary mt-4" @click="claculateHosts">Calculate</button>
       </form>
 
       <div class="mt-3">
         <div class="alert alert-info">
-          <div class="flex-info">
-            <div>Network Mask:</div> 
+          <div v-if="showResult" class="flex-info">
+            <div>Mask:</div> 
             <div>{{ decimalMask }}</div>
           </div>
 
@@ -50,29 +50,29 @@
             <div>{{ maskOctet1 }}.{{ maskOctet2 }}.{{ maskOctet3 }}.{{ maskOctet4 }}</div>
           </div>
 
-          <div class="flex-info">
-            <div>IP in binary: </div>
+          <div v-if="showResult" class="flex-info">
+            <div>IP Binary: </div>
             <div>{{ binaryMask }}</div>
           </div>
 
-          <div class="flex-info">
-            <div>Number of Hosts: </div>
+          <div v-if="showResult" class="flex-info">
+            <div>Hosts: </div>
             <div>{{ hosts }}</div>
           </div>
 
-          <div class="flex-info">
+          <!-- <div class="flex-info">
             <div> net Class</div>
             <div>{{ netClass }}</div>
-          </div>
+          </div> -->
         </div>
       </div>
 
-      <div class="mt-3">
+      <!-- <div class="mt-3">
         <div class="alert alert-warning">
           <div>{{ test }}</div>
           <div>{{ binary_ip }}</div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -103,41 +103,32 @@ export default {
       decimalMask: 'decimal mask',
       test: 'Testing Area',
       error_msg: 'number between 0-255',
+      valid_form: false,
+      showResult: false,
     }
   },
   methods: {
-    claculateHosts () {
-      this.convertToBinaryWord(10);
-      // // this.validateInput();
-      // if (this.maskOctet1_error || this.maskOctet2_error || this.maskOctet3_error || this.maskOctet4_error || this.network_number_error){
-      //   this.resetValues();
-      //   return;
-      // }else{
-
+    claculateHosts (event) {
+      event.preventDefault()
+      if (this.valid_form) {
         this.binaryMask = this.convertToBinaryWord(this.maskOctet1)
           + '.' + this.convertToBinaryWord(this.maskOctet2)
           + '.' + this.convertToBinaryWord(this.maskOctet3)
           + '.' + this.convertToBinaryWord(this.maskOctet4)
-
-        // this.binaryMask =  this.convertToBinaryWord(this.maskOctet1)
-        // + this.convertToBinaryWord(this.maskOctet2)
-        // + this.convertToBinaryWord(this.maskOctet3)
-        // + this.convertToBinaryWord(this.maskOctet4)
-
+  
         this.getNetworkMask()
         this.getHostsNumber()
-
-      //   this.netClass = (this.maskOctet1 >>> 0).toString(2).substring(0, 3)
-
-      //   this.test = (this.maskOctet1 >>> 0).toString(2)
-      //     + (this.maskOctet2 >>> 0).toString(2)
-      //     + (this.maskOctet3 >>> 0).toString(2)
-      //     + (this.maskOctet4 >>> 0).toString(2)
-      //   this.test = this.test.substring(parseInt(this.network_number)-1)
-      // }
+        return
+      }
+      console.log('Unvalid Vlue')
     },
-    validateInput() {
-
+    validateInput(event) {
+      if (isNaN(this.network_number) || this.network_number < 0 || this.network_number > 30 || this.network_number.length === 0) {
+        this.network_number_error = true
+      } else {
+        this.network_number_error = false
+      }
+      
       if (isNaN(this.maskOctet1) || this.maskOctet1 < 0 || this.maskOctet1 > 255 || this.maskOctet1.length === 0) {
         this.maskOctet1_error = true
       } else {
@@ -158,10 +149,18 @@ export default {
       } else {
         this.maskOctet4_error = false
       }
-      if (isNaN(this.network_number) || this.network_number < 0 || this.network_number > 255 || this.network_number.length === 0) {
-        this.network_number_error = true
-      } else {
-        this.network_number_error = false
+
+      if (this.maskOctet1_error ||
+        this.maskOctet2_error ||
+        this.maskOctet3_error ||
+        this.maskOctet4_error ||
+        this.network_number_error
+      ){
+        this.valid_form = false
+        this.showResult = false
+      }else{
+        this.valid_form = true
+        this.showResult = true
       }
     },
 
@@ -287,14 +286,13 @@ export default {
     display: flex;
     width: 100%;
   }
-  /*.flex-errors > div{*/
-    /*flex: 2;*/
-  /*}*/
   .threeThirds{
     width: 80%;
+    margin-right: 2px;
   }
   .third{
     width: 20%;
+    margin-left:  auto;
   }
 
   .error{
@@ -311,6 +309,15 @@ export default {
   }
   .flex-info > div{
     flex: 2;
+    /* border-bottom: 2px solid  #fff; */
+    padding: 5px;
+  }
+  .flex-info:hover{
+    /* border-bottom: 2px solid rgb(192, 124, 22); */
+    background-color: #fff;
+    color: rgb(9, 65, 59);
+    border-radius: 3px;
+    border-left: 3px solid coral;
   }
 
 </style>
