@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <h1>Subnet</h1>
     <div>
       <form>
           <label for="subnetmask1">Enter IP:</label>

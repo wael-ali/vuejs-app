@@ -4,7 +4,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>|
       <router-link to="/loggin">Loggin</router-link>|
-      <router-link to="/subnet">SubnetCalculate</router-link>|
+      <router-link to="/subnet">Subnets</router-link>|
 
     </div>
     <router-view/>

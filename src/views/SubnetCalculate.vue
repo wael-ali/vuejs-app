@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Subnet Calculations</h1>
+    <h1 class="mb-5">Subnet Calculations</h1>
     <Subnet />
   </div>
 </template>

@@ -4,6 +4,7 @@
     <div>
       login form.
     </div>
+    <small>Comming soon !..</small>
   </div>
 </template>
 

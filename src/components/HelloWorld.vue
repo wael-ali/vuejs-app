@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
   <h1>Welcome to Netlify</h1>
+  <small>Comming soon !..</small>
   </div>
 </template>
 
